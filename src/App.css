@@ -9,7 +9,7 @@
 .posts {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 30px;
+  gap: 20px;
 }
 
 .post {
@@ -23,9 +23,11 @@
 }
 
 .post img {
+  height: 300px;
+  width: 600px;
   max-width: 100%;
 }
 
 .post-content {
-  padding: 30px;
+  padding: 25px;
 }
