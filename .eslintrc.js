@@ -2,6 +2,7 @@ module.exports = {
     "env": {
         "browser": true,
         "es2021": true,
+        "jest": true,
         "node": true
     },
     "extends": [
@@ -18,6 +19,20 @@ module.exports = {
     "plugins": [
         "react"
     ],
-    "rules": {
-    }
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+    rules: {
+      "no-unused-vars": [
+        "warn",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_"
+        }
+      ],
+      "react/react-in-jsx-scope": "off",
+      "no-debugger": "warn"
+    },
 };

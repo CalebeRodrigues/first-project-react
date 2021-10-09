@@ -8,7 +8,7 @@ describe('<TextInput />', () => {
     it('should have a value of searchValue', () => {
         const fn = jest.fn();
         render(<TextInput handleChange={fn} searchValue={'testando'} />);
-        
+
         const input = screen.getByPlaceholderText(/type your search/i);
         expect(input).toBeInTheDocument();
 
@@ -20,7 +20,7 @@ describe('<TextInput />', () => {
         render(<TextInput handleChange={fn} searchValue={'testando'} />);
 
         const input = screen.getByPlaceholderText(/type your search/i);
-        
+
         const value = 'valor';
 
         userEvent.type(input, value);
@@ -31,7 +31,7 @@ describe('<TextInput />', () => {
     it('should match snapshot', () => {
         const fn = jest.fn();
         const {container} = render(<TextInput handleChange={fn} searchValue={'testando'} />);
-        
+
         expect(container.firstChild).toMatchSnapshot();
     });
 

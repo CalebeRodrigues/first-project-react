@@ -17,7 +17,7 @@ export const Home = () => {
 
   const noMorePosts = (page + postsPerPage) >= allPosts.length;
 
-  const filteredPosts = (searchValue) ? 
+  const filteredPosts = (searchValue) ?
   allPosts.filter(post => {
     return post.title.toLowerCase().includes(searchValue.toLowerCase());
   }) : posts;
@@ -26,14 +26,14 @@ export const Home = () => {
     const postsAndPhotos = await loadPosts();
 
     setPosts(postsAndPhotos.slice(page, postsPerPage));
-    setAllPosts(postsAndPhotos);  
+    setAllPosts(postsAndPhotos);
   }, [])
 
   useEffect(() => {
     handleLoadPosts(0, postsPerPage);
   }, [handleLoadPosts, postsPerPage]);
 
-  const loadMorePosts = () => { 
+  const loadMorePosts = () => {
     const nextPage = page + postsPerPage;
     const nextPosts = allPosts.slice(nextPage, (nextPage + postsPerPage));
 
@@ -45,7 +45,7 @@ export const Home = () => {
 
   const handleChange = (e) => {
     const { value } = e.target;
-    
+
     setSearchValue(value);
   }
 
@@ -59,10 +59,10 @@ export const Home = () => {
 
         {!!searchValue && (
           <>
-            <h2>Resultados encontrados para "{searchValue}":</h2> <br />
+            <h2>Resultados encontrados para {searchValue}:</h2> <br />
           </>
         )}
-      </div>        
+      </div>
 
       {(filteredPosts.length > 0) && (
         <Posts posts={filteredPosts} />
@@ -75,9 +75,9 @@ export const Home = () => {
       <div className="button-container">
         {
           (!searchValue) && (
-            <Button 
-              text="Load more posts" 
-              click={loadMorePosts} 
+            <Button
+              text="Load more posts"
+              click={loadMorePosts}
               disabled={noMorePosts}
             />
         )}
