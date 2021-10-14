@@ -4,6 +4,7 @@ import { setupServer } from 'msw/node'
 import { render, screen, waitForElementToBeRemoved } from "@testing-library/react";
 
 import { Home } from './';
+import userEvent from '@testing-library/user-event';
 
 const handlers = [
   rest.get('*jsonplaceholder.typicode.com*', async (req, res, ctx) => {
@@ -62,5 +63,42 @@ describe('<Home />', () => {
     expect(search).toBeInTheDocument();
     expect(imgs).toHaveLength(3);
     expect(button).toBeInTheDocument();
+  });
+
+  it('should search for posts', async () => {
+    render(<Home />);
+    const noMorePosts = screen.getByText('Nenhum resultado encontrado!');
+
+    expect.assertions(10);
+
+    await waitForElementToBeRemoved(noMorePosts);
+
+    const search = screen.getByPlaceholderText(/type your search/i);
+
+    expect(screen.getByRole('heading', { name: 'title 1 1'  })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'title 2 2'  })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'title 3 3'  })).toBeInTheDocument();
+
+    // Pesquisando no search
+    userEvent.type(search, 'title 1');
+
+    expect(screen.getByRole('heading', { name: 'title 1 1'  })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'title 2 2'  })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'title 3 3'  })).not.toBeInTheDocument();
+
+    // Testando o heading da pesquisa
+    expect(screen.getByRole('heading', { name: 'Resultados encontrados para title 1:' }));
+
+    // Limpando pesquisa
+    userEvent.clear(search);
+
+    expect(screen.getByRole('heading', { name: 'title 1 1'  })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'title 2 2'  })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'title 3 3'  })).toBeInTheDocument();
+
+    // heading que aparece ao digitar algo inexistente
+    userEvent.type(search, 'Post que não existe');
+
+    expect(screen.getByRole('heading', { name: 'Nenhum resultado encontrado!'  })).toBeInTheDocument();
   });
 });
