@@ -101,4 +101,17 @@ describe('<Home />', () => {
 
     expect(screen.getByRole('heading', { name: 'Nenhum resultado encontrado!'  })).toBeInTheDocument();
   });
+
+  it('should render search, posts and load more', async () => {
+    render(<Home npages={2} />);
+    const noMorePosts = screen.getByText('Nenhum resultado encontrado!');
+
+    await waitForElementToBeRemoved(noMorePosts);
+
+    const button = screen.getByRole('button', { name: /load more/i });
+
+    userEvent.click(button);
+    expect(screen.getByRole('heading', { name: 'title 3 3' })).toBeInTheDocument();
+    expect(button).toBeDisabled();
+  });
 });
